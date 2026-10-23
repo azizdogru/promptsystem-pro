@@ -9,7 +9,7 @@ import {
   CheckCircle2,
   FileCode,
   Zap,
-  Lock,
+  FolderArchive,
   Download,
   HelpCircle,
 } from 'lucide-react';
@@ -20,9 +20,9 @@ import RoiCalculator from '@/components/RoiCalculator';
 import CheckoutButton from '@/components/CheckoutButton';
 
 export const metadata = {
-  title: 'PromptSystem Pro — Production AI Prompt Chains & Operating Systems for 50+ Roles',
+  title: 'PromptSystem Pro — Production AI Operating Systems for 102 Professional Roles',
   description:
-    'Stop using generic $5 prompts. Deploy multi-step Chain-of-Thought AI systems, Claude Project setups, and executive workflows engineered specifically for your professional role.',
+    'Stop using generic $5 prompts. Deploy multi-step Chain-of-Thought AI operating systems, Claude Project setups, and executive workflows across 102 professional roles.',
 };
 
 export default function HomePage() {
@@ -33,7 +33,7 @@ export default function HomePage() {
   const faqs = [
     {
       q: 'How are these different from generic ChatGPT prompt packs on the internet?',
-      a: 'Generic prompt packs are single-sentence fluff ("write me an email") that produce shallow, uncalibrated AI answers. PromptSystem Pro delivers production-grade multi-step Chain-of-Thought systems with XML parameter tags, negative constraints, few-shot domain examples, and statutory citations (e.g. DGCL corporate law, GAAP accounting, HIPAA privacy, SOC 2 Type II). Each role kit is designed for senior practitioners.',
+      a: 'Generic prompt packs are single-sentence fluff ("write me an email") that produce shallow, uncalibrated AI answers. PromptSystem Pro delivers production-grade multi-step Chain-of-Thought systems with XML parameter tags, negative constraints, few-shot domain examples, and statutory citations (e.g. DGCL corporate law, GAAP accounting, HIPAA privacy, OSHA 1926, NEC electrical code, Common Core education). Each role kit is designed for senior practitioners.',
     },
     {
       q: 'Which AI models are supported?',
@@ -41,11 +41,11 @@ export default function HomePage() {
     },
     {
       q: 'What files do I receive upon purchase?',
-      a: 'You receive instant access on the success page and via email to: (1) An editable 14-page Microsoft Word (.docx) Operations Manual, (2) A formatted Markdown (.md) Playbook, (3) A Claude Project & Custom GPT Configuration (.json & .txt) file, and (4) A 2-page printable vector PDF executive cheat sheet.',
+      a: 'You receive instant access to download the Complete Role Pack (.ZIP archive) which includes: (1) An 18+ page Microsoft Word (.docx) Operations Manual, (2) A formatted Markdown (.md) Playbook, (3) Claude Project & Custom GPT Configuration files (.json & .txt), and (4) A 2-page printable vector PDF executive protocol guide.',
     },
     {
-      q: 'Can I use these prompts across my company or agency?',
-      a: 'Yes. Every purchase includes an official Commercial Operating License authorizing your team to deploy, adapt, and run these prompts in private client workflows, internal automation pipelines, and commercial SaaS operations.',
+      q: 'Can I use these prompts across my company, firm, or agency?',
+      a: 'Yes. Every purchase includes an official Commercial Operating License authorizing your team to deploy, adapt, and run these prompts in private client workflows, internal automation pipelines, and commercial business operations.',
     },
     {
       q: 'Is there a money-back guarantee?',
@@ -69,7 +69,7 @@ export default function HomePage() {
           availability: 'https://schema.org/InStock',
         },
         description:
-          'Production-grade multi-step Chain-of-Thought AI prompt chains, Claude Project knowledge bases, and executive workflow automations for 50+ professional roles.',
+          'Production-grade multi-step Chain-of-Thought AI prompt chains, Claude Project knowledge bases, and executive workflow automations across 102 professional roles.',
       },
       {
         '@type': 'FAQPage',
@@ -100,30 +100,30 @@ export default function HomePage() {
           {/* Top Pill */}
           <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs font-semibold text-emerald-400 backdrop-blur-md">
             <Sparkles className="h-3.5 w-3.5" />
-            <span>Updated for Claude 3.5 Sonnet & GPT-4o • 50+ Accredited Roles</span>
+            <span>Updated for Claude 3.5 Sonnet & GPT-4o • 102 Accredited Roles</span>
           </div>
 
           {/* Main Title */}
           <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-white sm:text-6xl sm:leading-[1.1]">
             Production AI Operating Systems Engineered for{' '}
             <span className="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
-              High-Impact Roles
+              102 High-Impact Roles
             </span>
           </h1>
 
           <p className="mt-6 text-lg leading-relaxed text-slate-300 max-w-3xl mx-auto sm:text-xl">
-            Stop pasting amateur $5 prompt lists. Deploy multi-step Chain-of-Thought AI systems, Claude Project setups, and executive workflows with strict negative constraints and real-world statutory standards.
+            Stop pasting amateur $5 prompt lists. Deploy multi-step Chain-of-Thought AI systems, Claude Project setups, and executive workflows across tech, legal, medical, trades, education, culinary, and finance.
           </p>
 
           {/* Social Proof Badges */}
           <div className="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-slate-400">
             <span className="flex items-center gap-1.5">
               <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-              <span>50+ Specialized Professional Roles</span>
+              <span>102 Specialized Professional Roles</span>
             </span>
             <span className="flex items-center gap-1.5">
               <CheckCircle2 className="h-4 w-4 text-emerald-400" />
-              <span>~14.2 Hours Reclaimed Weekly</span>
+              <span>~14.5 Hours Reclaimed Weekly</span>
             </span>
             <span className="flex items-center gap-1.5">
               <CheckCircle2 className="h-4 w-4 text-emerald-400" />
@@ -185,17 +185,17 @@ export default function HomePage() {
               </div>
               <h3 className="text-base font-bold text-white">Negative Constraints & Rules</h3>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Strict boundaries against hallucinations, ungrounded citations, and vague disclaimers. Incorporates DGCL, HIPAA, and GAAP standards.
+                Strict boundaries against hallucinations and vague disclaimers. Incorporates DGCL, HIPAA, OSHA 1926, and GAAP standards.
               </p>
             </div>
 
             <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-6 space-y-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20">
-                <Zap className="h-5 w-5" />
+                <FolderArchive className="h-5 w-5" />
               </div>
-              <h3 className="text-base font-bold text-white">Instant Multi-Format Delivery</h3>
+              <h3 className="text-base font-bold text-white">Instant 1-Click .ZIP Package</h3>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Download your system immediately in Microsoft Word (.docx), Markdown (.md), JSON, and 2-page printable vector PDF.
+                Download your system in Word (.docx), Markdown (.md), JSON, 2-page printable vector PDF, and complete .ZIP archive.
               </p>
             </div>
           </div>
@@ -227,17 +227,17 @@ export default function HomePage() {
         <RoiCalculator />
       </section>
 
-      {/* 50+ Roles Directory Section */}
+      {/* 102 Roles Directory Section */}
       <section className="px-4 py-20 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="mb-10 text-center max-w-3xl mx-auto">
           <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400">
             Comprehensive Role Catalog
           </span>
           <h2 className="mt-2 text-3xl font-extrabold text-white sm:text-4xl">
-            Explore 50+ Role-Specific AI Operating Systems
+            Explore 102 Role-Specific AI Operating Systems
           </h2>
           <p className="mt-2 text-sm text-slate-400">
-            Every system is built from scratch for a specific professional role, complete with prompt chains, custom instructions, and workflow automations.
+            Covering Engineering, Legal, Healthcare, Trades, Education, Culinary, Real Estate, Fitness, and Finance.
           </p>
         </div>
 
@@ -281,7 +281,7 @@ export default function HomePage() {
                 <ul className="mt-8 space-y-3 text-xs text-slate-300">
                   <li className="flex items-center gap-2.5">
                     <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>Complete Role Master System Prompt (XML format)</span>
+                    <span>Complete Role Master System Prompt (Claude XML & ChatGPT format)</span>
                   </li>
                   <li className="flex items-center gap-2.5">
                     <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
@@ -289,11 +289,15 @@ export default function HomePage() {
                   </li>
                   <li className="flex items-center gap-2.5">
                     <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>Editable Word (.docx) & Markdown (.md) Playbook</span>
+                    <span>Heavyweight 18+ Page Word (.docx) & Markdown (.md) Playbook</span>
                   </li>
                   <li className="flex items-center gap-2.5">
                     <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
                     <span>Printable 2-Page Vector Executive PDF Cheat Sheet</span>
+                  </li>
+                  <li className="flex items-center gap-2.5">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+                    <span>1-Click Complete Package (.ZIP) Download</span>
                   </li>
                   <li className="flex items-center gap-2.5">
                     <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
@@ -325,25 +329,25 @@ export default function HomePage() {
                     All-Access Master Bundle
                   </span>
                 </div>
-                <h3 className="mt-4 text-2xl font-bold text-white">All 50+ Professional AI Systems</h3>
+                <h3 className="mt-4 text-2xl font-bold text-white">All 102 Professional AI Systems</h3>
                 <p className="mt-1 text-xs text-slate-400">
-                  Full library access across all 8 sectors (Engineering, Legal, Finance, Real Estate, Healthcare, Marketing, Executive, E-Commerce).
+                  Full library access across all 13 industry verticals (Tech, Legal, Trades, Education, Medical, Culinary, Finance, Creative, and more).
                 </p>
 
                 <div className="mt-6 flex items-baseline gap-2">
                   <span className="text-5xl font-extrabold text-white">$39</span>
                   <span className="text-sm font-medium text-slate-400">.00 / one-time</span>
-                  <span className="ml-2 text-xs line-through text-slate-500">$950 Value</span>
+                  <span className="ml-2 text-xs line-through text-slate-500">$1,950 Value</span>
                 </div>
 
                 <ul className="mt-8 space-y-3 text-xs text-slate-200">
                   <li className="flex items-center gap-2.5">
                     <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span className="font-semibold text-white">All 50+ Professional Role Operating Systems</span>
+                    <span className="font-semibold text-white">All 102 Professional Role Operating Systems</span>
                   </li>
                   <li className="flex items-center gap-2.5">
                     <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>250+ Multi-Step Production Prompt Chains</span>
+                    <span>500+ Multi-Step Production Prompt Chains</span>
                   </li>
                   <li className="flex items-center gap-2.5">
                     <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
@@ -351,7 +355,7 @@ export default function HomePage() {
                   </li>
                   <li className="flex items-center gap-2.5">
                     <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>All Editable Word (.docx) & Printable Vector PDFs</span>
+                    <span>All Editable Word (.docx), Vector PDFs, and .ZIP Archives</span>
                   </li>
                   <li className="flex items-center gap-2.5">
                     <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
@@ -359,7 +363,7 @@ export default function HomePage() {
                   </li>
                   <li className="flex items-center gap-2.5">
                     <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>Free Lifetime Updates (New 2026 releases included)</span>
+                    <span>Free Lifetime Updates (All 2026 releases included)</span>
                   </li>
                 </ul>
               </div>
@@ -368,7 +372,7 @@ export default function HomePage() {
                 <CheckoutButton
                   plan="bundle"
                   priceDisplay="$39.00"
-                  label="Unlock All 50+ Roles Bundle — $39"
+                  label="Unlock All 102 Roles Bundle — $39"
                   variant="primary"
                 />
               </div>
@@ -404,3 +408,4 @@ export default function HomePage() {
     </div>
   );
 }
+

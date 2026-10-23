@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getRoleBySlug, ALL_ROLES } from '@/data/roles';
 import { generateRoleMarkdown } from '@/lib/markdownGenerator';
 import { generateRoleDocx } from '@/lib/docxGenerator';
+import { generateRoleZip } from '@/lib/zipGenerator';
 
 export const dynamic = 'force-dynamic';
 
@@ -18,6 +19,19 @@ export async function GET(req: Request) {
 
     const safeRoleName = kit.role.replace(/[^a-zA-Z0-9_-]/g, '_');
 
+    // ZIP Package
+    if (format === 'zip') {
+      const zipBytes = await generateRoleZip(kit);
+      return new NextResponse(Buffer.from(zipBytes), {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/zip',
+          'Content-Disposition': `attachment; filename="${safeRoleName}_Complete_AI_Operating_System.zip"`,
+        },
+      });
+    }
+
+    // Markdown Playbook
     if (format === 'md') {
       const mdContent = generateRoleMarkdown(kit);
       return new NextResponse(mdContent, {
@@ -29,14 +43,18 @@ export async function GET(req: Request) {
       });
     }
 
+    // JSON Config
     if (format === 'json') {
       const jsonContent = JSON.stringify(
         {
           role: kit.role,
           badge: kit.badge,
           masterSystemPrompt: kit.masterSystemPrompt,
+          chatGptSystemPrompt: kit.chatGptSystemPrompt,
           promptChains: kit.promptChains,
           knowledgeBase: kit.knowledgeBaseSnippets,
+          governance: kit.aiGovernanceGuidelines,
+          roadmap: kit.onboardingRoadmap,
         },
         null,
         2
@@ -50,7 +68,7 @@ export async function GET(req: Request) {
       });
     }
 
-    // Default to DOCX
+    // Default to Word (.docx)
     const docxBytes = await generateRoleDocx(kit);
     return new NextResponse(Buffer.from(docxBytes), {
       status: 200,

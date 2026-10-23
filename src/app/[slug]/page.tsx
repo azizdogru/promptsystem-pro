@@ -9,12 +9,13 @@ import {
   Layers,
   ArrowRight,
   CheckCircle2,
-  Copy,
   Terminal,
   FileText,
   Workflow,
   Sparkles,
-  BookOpen,
+  ShieldAlert,
+  Calendar,
+  CheckSquare,
 } from 'lucide-react';
 import { ALL_ROLES, getRoleBySlug, getAllRoleSlugs } from '@/data/roles';
 import PromptSimulator from '@/components/PromptSimulator';
@@ -181,9 +182,9 @@ export default function RoleDetailPage({ params }: PageProps) {
             <div className="space-y-1">
               <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider flex items-center gap-1">
                 <Cpu className="h-3.5 w-3.5 text-purple-400" />
-                <span>Recommended Model</span>
+                <span>Supported Models</span>
               </span>
-              <p className="text-base font-bold text-white">Claude 3.5 / GPT-4o</p>
+              <p className="text-base font-bold text-white">Claude 3.5 & GPT-4o</p>
             </div>
 
             <div className="space-y-1">
@@ -202,15 +203,15 @@ export default function RoleDetailPage({ params }: PageProps) {
               plan="single"
               priceDisplay="$19.00"
               label={`Download ${kit.role} System — $19`}
-              sublabel="Instant access to Word (.docx), Markdown (.md), JSON & PDF cheat sheet"
+              sublabel="Instant access to Word (.docx), PDF cheat sheet, Markdown (.md), and Complete .ZIP"
               variant="primary"
               className="w-full sm:w-auto"
             />
             <CheckoutButton
               plan="bundle"
               priceDisplay="$39.00"
-              label="Unlock All 50+ Roles Bundle ($39)"
-              sublabel="Best value: full library access across all 8 industry verticals"
+              label="Unlock All 102 Roles Bundle ($39)"
+              sublabel="Best value: full library access across all professional sectors"
               variant="secondary"
               className="w-full sm:w-auto"
             />
@@ -221,6 +222,32 @@ export default function RoleDetailPage({ params }: PageProps) {
       {/* Interactive Simulator Section */}
       <section className="px-4 py-12 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <PromptSimulator chains={kit.promptChains} roleTitle={kit.role} />
+      </section>
+
+      {/* AI Governance & Anti-Hallucination Guardrails Section */}
+      <section className="px-4 py-12 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-6 md:p-8 space-y-4">
+          <div className="flex items-center gap-2">
+            <ShieldAlert className="h-5 w-5 text-amber-400" />
+            <h3 className="text-lg font-bold text-white">
+              Enterprise AI Governance & Statutory Compliance Guardrails
+            </h3>
+          </div>
+          <p className="text-xs text-slate-300 leading-relaxed max-w-3xl">
+            Every prompt in this system enforces strict negative boundaries to prevent liability exposure under {kit.badge}.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2">
+            {kit.aiGovernanceGuidelines.map((rule, rIdx) => (
+              <div key={rIdx} className="rounded-xl border border-slate-800 bg-slate-950 p-3.5 text-xs text-slate-300 space-y-1">
+                <span className="font-bold text-amber-400 uppercase tracking-wider text-[10px]">
+                  Guardrail {rIdx + 1}
+                </span>
+                <p>{rule}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Master System Prompt Section */}
@@ -262,7 +289,7 @@ export default function RoleDetailPage({ params }: PageProps) {
         </div>
 
         <div className="space-y-6">
-          {kit.promptChains.map((chain, cIdx) => (
+          {kit.promptChains.map((chain) => (
             <div
               key={chain.id}
               className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6 md:p-8 space-y-5"
@@ -286,6 +313,9 @@ export default function RoleDetailPage({ params }: PageProps) {
                   </span>
                   <span className="rounded border border-slate-700 bg-slate-800 px-2.5 py-1 text-emerald-400 font-semibold">
                     {chain.complexity}
+                  </span>
+                  <span className="rounded border border-slate-700 bg-slate-800 px-2.5 py-1 text-cyan-400">
+                    ${chain.estimatedCostUsd}/run
                   </span>
                 </div>
               </div>
@@ -336,6 +366,65 @@ export default function RoleDetailPage({ params }: PageProps) {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* 30-60-90 Day Adoption Roadmap Section */}
+      <section className="px-4 py-12 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 md:p-8 space-y-6">
+          <div className="border-b border-slate-800 pb-4">
+            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+              <Calendar className="h-4 w-4" />
+              <span>Implementation Schedule</span>
+            </span>
+            <h2 className="mt-1 text-2xl font-bold text-white">
+              30-60-90 Day Firm AI Adoption Roadmap
+            </h2>
+            <p className="mt-1 text-xs text-slate-400">
+              Structured rollout plan ensuring complete team integration and zero operational disruption.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {kit.onboardingRoadmap.map((phase, pIdx) => (
+              <div key={pIdx} className="rounded-xl border border-slate-800 bg-slate-950 p-4 space-y-2.5">
+                <span className="text-xs font-bold text-emerald-400">{phase.window}</span>
+                <p className="text-xs text-slate-300 font-medium">{phase.objective}</p>
+                <ul className="space-y-1 text-[11px] text-slate-400">
+                  {phase.deliverables.map((d, dIdx) => (
+                    <li key={dIdx} className="flex items-start gap-1">
+                      <span className="text-emerald-400 font-bold">•</span>
+                      <span>{d}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Quality Control Audit Checklist Section */}
+      <section className="px-4 py-12 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6 md:p-8 space-y-4">
+          <div className="flex items-center gap-2">
+            <CheckSquare className="h-5 w-5 text-cyan-400" />
+            <h3 className="text-lg font-bold text-white">
+              Weekly Quality Assurance & Audit Punchlist
+            </h3>
+          </div>
+          <p className="text-xs text-slate-400">
+            Standard operating punchlist for lead practitioners auditing team AI deliverables.
+          </p>
+
+          <div className="space-y-2 pt-2">
+            {kit.auditChecklistTasks.map((task, tIdx) => (
+              <div key={tIdx} className="flex items-start gap-2.5 text-xs text-slate-300 rounded-lg bg-slate-950 p-3 border border-slate-800">
+                <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                <span>{task}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

@@ -15,6 +15,8 @@ import {
   ArrowRight,
   Sparkles,
   Terminal,
+  FolderArchive,
+  Cpu,
 } from 'lucide-react';
 import { ALL_ROLES, getRoleBySlug } from '@/data/roles';
 
@@ -26,12 +28,13 @@ function SuccessContent() {
   const isBundle = plan === 'bundle' || !slug;
   const roleKit = slug ? getRoleBySlug(slug) : ALL_ROLES[0];
   const [copiedPrompt, setCopiedPrompt] = useState(false);
+  const [promptTab, setPromptTab] = useState<'claude' | 'chatgpt'>('claude');
 
   useEffect(() => {
     try {
       confetti({
-        particleCount: 100,
-        spread: 70,
+        particleCount: 120,
+        spread: 80,
         origin: { y: 0.6 },
         colors: ['#10B981', '#06B6D4', '#F59E0B', '#3B82F6'],
       });
@@ -40,9 +43,14 @@ function SuccessContent() {
     }
   }, []);
 
+  const activePromptText =
+    promptTab === 'claude'
+      ? roleKit?.masterSystemPrompt || ''
+      : roleKit?.chatGptSystemPrompt || roleKit?.masterSystemPrompt || '';
+
   const handleCopyPrompt = () => {
-    if (roleKit?.masterSystemPrompt) {
-      navigator.clipboard.writeText(roleKit.masterSystemPrompt);
+    if (activePromptText) {
+      navigator.clipboard.writeText(activePromptText);
       setCopiedPrompt(true);
       setTimeout(() => setCopiedPrompt(false), 2000);
     }
@@ -61,7 +69,7 @@ function SuccessContent() {
           Order Confirmed • Commercial License Issued
         </span>
         <h1 className="text-3xl font-extrabold text-white sm:text-4xl">
-          {isBundle ? 'All-Access Master Library Unlocked!' : `Your ${roleKit?.role} AI System is Ready`}
+          {isBundle ? 'All-Access Master Library Unlocked (102 Roles)!' : `Your ${roleKit?.role} AI System is Ready`}
         </h1>
         <p className="text-sm text-slate-400 max-w-lg mx-auto">
           Thank you for your purchase. Your files have been compiled and your commercial enterprise operating license has been activated.
@@ -79,15 +87,44 @@ function SuccessContent() {
         </div>
       </div>
 
-      {/* Download Deliverables Hub */}
+      {/* Primary 1-Click ZIP Download Hero Card */}
+      <div className="rounded-2xl border-2 border-emerald-500/60 bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 p-6 md:p-8 shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 -mt-6 -mr-6 h-32 w-32 rounded-full bg-emerald-500/10 blur-3xl" />
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="rounded bg-emerald-500/20 px-2.5 py-0.5 text-xs font-bold text-emerald-400 border border-emerald-500/30">
+                RECOMMENDED
+              </span>
+              <span className="text-xs text-slate-400">All Formats Included</span>
+            </div>
+            <h2 className="text-xl md:text-2xl font-bold text-white">
+              Download Complete Role Pack (.ZIP Archive)
+            </h2>
+            <p className="text-xs text-slate-300 max-w-xl leading-relaxed">
+              Contains the 18+ page Word (.docx) manual, 2-page vector PDF cheat sheet, Markdown (.md) playbook, Claude Projects knowledge files, and commercial license certificate in one click.
+            </p>
+          </div>
+
+          <a
+            href={`/api/download?slug=${safeSlug}&format=zip`}
+            className="flex items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-6 py-4 text-sm font-bold text-slate-950 shadow-lg shadow-emerald-500/25 transition hover:brightness-110 active:scale-98 shrink-0 w-full md:w-auto"
+          >
+            <FolderArchive className="h-5 w-5" />
+            <span>Download All Files (.ZIP)</span>
+          </a>
+        </div>
+      </div>
+
+      {/* Download Individual Formats Hub */}
       <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 md:p-8 space-y-6">
         <div className="border-b border-slate-800 pb-4">
-          <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            <Download className="h-5 w-5 text-emerald-400" />
-            <span>Instant Download Deliverables</span>
+          <h2 className="text-lg font-bold text-white flex items-center gap-2">
+            <Download className="h-4 w-4 text-emerald-400" />
+            <span>Individual Format Downloads</span>
           </h2>
-          <p className="text-xs text-slate-400 mt-1">
-            Select your preferred format below. All files are fully editable and cloud ready.
+          <p className="text-xs text-slate-400 mt-0.5">
+            Prefer specific formats? Download individual files below.
           </p>
         </div>
 
@@ -102,10 +139,10 @@ function SuccessContent() {
             </div>
             <div className="space-y-1">
               <div className="text-sm font-bold text-white group-hover:text-emerald-400 transition">
-                Microsoft Word (.docx) Operations Manual
+                Microsoft Word (.docx) 18+ Page Manual
               </div>
               <p className="text-xs text-slate-400">
-                14-page formatted operational playbook with cover page, system prompts, prompt chains, and commercial license.
+                Full enterprise operating playbook: AI governance, prompt chains, knowledge files, 90-day roadmap, and audit punchlists.
               </p>
             </div>
           </a>
@@ -123,7 +160,7 @@ function SuccessContent() {
                 Executive AI Protocol Guide (.pdf)
               </div>
               <p className="text-xs text-slate-400">
-                2-page high-resolution vector PDF cheat sheet ready for printing or dual-monitor reference.
+                2-page high-resolution vector printable PDF cheat sheet for desktop or wall reference.
               </p>
             </div>
           </a>
@@ -141,7 +178,7 @@ function SuccessContent() {
                 Markdown (.md) Master Playbook
               </div>
               <p className="text-xs text-slate-400">
-                Obsidian and Notion ready markdown file containing raw XML prompt code blocks and input parameters.
+                Obsidian and Notion ready markdown file with raw XML prompt blocks, variables, and outputs.
               </p>
             </div>
           </a>
@@ -159,37 +196,64 @@ function SuccessContent() {
                 Claude Project & GPT Config (.json)
               </div>
               <p className="text-xs text-slate-400">
-                Structured JSON package formatted for automated API ingestion or Claude Projects knowledge upload.
+                Structured JSON package formatted for automated API ingestion or Claude Projects upload.
               </p>
             </div>
           </a>
         </div>
       </div>
 
-      {/* 1-Click System Prompt Copy Box */}
+      {/* 1-Click System Prompt Copy Box with Claude vs ChatGPT Switcher */}
       {roleKit && (
         <div className="rounded-2xl border border-slate-800 bg-slate-900/50 p-6 md:p-8 space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h3 className="text-base font-bold text-white flex items-center gap-2">
                 <Sparkles className="h-4 w-4 text-emerald-400" />
                 <span>One-Click System Prompt Copy</span>
               </h3>
               <p className="text-xs text-slate-400 mt-0.5">
-                Paste directly into Claude Projects &gt; Custom Instructions or ChatGPT &gt; Instructions.
+                Select your target platform for optimized prompt tags.
               </p>
             </div>
-            <button
-              onClick={handleCopyPrompt}
-              className="flex items-center gap-1.5 rounded-lg bg-emerald-500 px-3.5 py-1.5 text-xs font-bold text-slate-950 hover:bg-emerald-400 transition shadow-md shadow-emerald-500/20"
-            >
-              {copiedPrompt ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-              <span>{copiedPrompt ? 'Copied to Clipboard' : 'Copy System Prompt'}</span>
-            </button>
+
+            {/* Platform Switcher */}
+            <div className="flex items-center gap-2">
+              <div className="flex rounded-lg bg-slate-800 p-1 border border-slate-700">
+                <button
+                  onClick={() => setPromptTab('claude')}
+                  className={`rounded-md px-3 py-1 text-xs font-semibold transition ${
+                    promptTab === 'claude'
+                      ? 'bg-emerald-500 text-slate-950 shadow'
+                      : 'text-slate-300 hover:text-white'
+                  }`}
+                >
+                  For Claude (XML)
+                </button>
+                <button
+                  onClick={() => setPromptTab('chatgpt')}
+                  className={`rounded-md px-3 py-1 text-xs font-semibold transition ${
+                    promptTab === 'chatgpt'
+                      ? 'bg-cyan-500 text-slate-950 shadow'
+                      : 'text-slate-300 hover:text-white'
+                  }`}
+                >
+                  For ChatGPT (Markdown)
+                </button>
+              </div>
+
+              <button
+                onClick={handleCopyPrompt}
+                className="flex items-center gap-1.5 rounded-lg bg-emerald-500 px-3.5 py-1.5 text-xs font-bold text-slate-950 hover:bg-emerald-400 transition shadow-md shadow-emerald-500/20"
+              >
+                {copiedPrompt ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                <span>{copiedPrompt ? 'Copied!' : 'Copy'}</span>
+              </button>
+            </div>
           </div>
 
           <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 font-mono text-xs text-slate-300 max-h-[240px] overflow-y-auto leading-relaxed">
-            <pre className="whitespace-pre-wrap">{roleKit.masterSystemPrompt}</pre>
+            <pre className="whitespace-pre-wrap">{activePromptText}</pre>
           </div>
         </div>
       )}
@@ -208,7 +272,7 @@ function SuccessContent() {
           <div className="rounded-xl border border-slate-800 bg-slate-950 p-4 space-y-2">
             <div className="font-bold text-emerald-400">Step 2: Paste Instructions</div>
             <p className="text-slate-400">
-              Click the Copy button above and paste the XML Master System Prompt into the project instructions field.
+              Click the Copy button above and paste the prompt into your project instructions field.
             </p>
           </div>
 

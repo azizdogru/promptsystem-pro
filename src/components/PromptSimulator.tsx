@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { PromptChain } from '@/types';
-import { Terminal, Copy, Check, Play, Sparkles, RefreshCw, Layers, ShieldAlert, Cpu } from 'lucide-react';
+import { Terminal, Copy, Check, Play, Sparkles, RefreshCw, Layers, ShieldAlert, Cpu, DollarSign } from 'lucide-react';
 
 interface PromptSimulatorProps {
   chains: PromptChain[];
@@ -21,8 +21,8 @@ export default function PromptSimulator({ chains, roleTitle }: PromptSimulatorPr
     return initial;
   });
 
+  const [promptFormat, setPromptFormat] = useState<'claude' | 'chatgpt'>('claude');
   const [isSimulating, setIsSimulating] = useState(false);
-  const [hasSimulated, setHasSimulated] = useState(true);
   const [copiedPrompt, setCopiedPrompt] = useState(false);
   const [copiedOutput, setCopiedOutput] = useState(false);
 
@@ -34,7 +34,6 @@ export default function PromptSimulator({ chains, roleTitle }: PromptSimulatorPr
       newVars[v.name] = v.defaultValue;
     });
     setVariables(newVars);
-    setHasSimulated(true);
   };
 
   const handleVariableChange = (name: string, val: string) => {
@@ -45,12 +44,16 @@ export default function PromptSimulator({ chains, roleTitle }: PromptSimulatorPr
     setIsSimulating(true);
     setTimeout(() => {
       setIsSimulating(false);
-      setHasSimulated(true);
     }, 600);
   };
 
-  // Replace variables in raw prompt
-  let renderedPrompt = activeChain?.fullPrompt || '';
+  // Replace variables in raw prompt based on target format
+  const basePromptTemplate =
+    promptFormat === 'claude'
+      ? activeChain?.fullPrompt || ''
+      : activeChain?.chatGptPrompt || activeChain?.fullPrompt || '';
+
+  let renderedPrompt = basePromptTemplate;
   Object.entries(variables).forEach(([k, v]) => {
     renderedPrompt = renderedPrompt.split(`{{${k}}}`).join(v || `[${k}]`);
   });
@@ -83,14 +86,18 @@ export default function PromptSimulator({ chains, roleTitle }: PromptSimulatorPr
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <span className="flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-1.5 text-xs font-medium text-slate-300">
             <Cpu className="h-3.5 w-3.5 text-emerald-400" />
-            <span>Model: {activeChain.recommendedModel}</span>
+            <span>{activeChain.recommendedModel}</span>
           </span>
           <span className="flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-1.5 text-xs font-medium text-slate-300">
             <Layers className="h-3.5 w-3.5 text-cyan-400" />
             <span>~{activeChain.estimatedTokens} Tokens</span>
+          </span>
+          <span className="flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-1.5 text-xs font-medium text-emerald-400 font-semibold">
+            <DollarSign className="h-3.5 w-3.5" />
+            <span>${activeChain.estimatedCostUsd} / run</span>
           </span>
         </div>
       </div>
@@ -123,9 +130,30 @@ export default function PromptSimulator({ chains, roleTitle }: PromptSimulatorPr
                 <Terminal className="h-3.5 w-3.5 text-emerald-400" />
                 <span>Prompt Input Variables</span>
               </span>
-              <span className="rounded bg-slate-800 px-2 py-0.5 text-[11px] font-medium text-slate-400">
-                {activeChain.variables.length} Dynamic Fields
-              </span>
+
+              {/* Target Format Switcher */}
+              <div className="flex rounded-md bg-slate-800 p-0.5 border border-slate-700 text-[10px]">
+                <button
+                  onClick={() => setPromptFormat('claude')}
+                  className={`px-2 py-0.5 rounded font-medium transition ${
+                    promptFormat === 'claude'
+                      ? 'bg-emerald-500 text-slate-950 font-bold'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  Claude (XML)
+                </button>
+                <button
+                  onClick={() => setPromptFormat('chatgpt')}
+                  className={`px-2 py-0.5 rounded font-medium transition ${
+                    promptFormat === 'chatgpt'
+                      ? 'bg-cyan-500 text-slate-950 font-bold'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  ChatGPT
+                </button>
+              </div>
             </div>
 
             <p className="text-xs text-slate-400 leading-relaxed">
@@ -178,7 +206,7 @@ export default function PromptSimulator({ chains, roleTitle }: PromptSimulatorPr
               title="Copy Raw Prompt"
             >
               {copiedPrompt ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4" />}
-              <span>{copiedPrompt ? 'Copied' : 'Copy Prompt'}</span>
+              <span>{copiedPrompt ? 'Copied' : `Copy (${promptFormat === 'claude' ? 'Claude' : 'GPT'})`}</span>
             </button>
           </div>
         </div>
@@ -227,3 +255,4 @@ export default function PromptSimulator({ chains, roleTitle }: PromptSimulatorPr
     </div>
   );
 }
+
