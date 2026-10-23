@@ -49,8 +49,8 @@ execute, and integrate all prompt chains, XML directives, and automation recipes
 within the licensee's internal business operations.
 
 2. Permitted Use:
-- Private firm or company AI workspaces (Anthropic Claude, OpenAI, Local LLMs).
-- Client work product deliverables generated using these prompt systems.
+- Private professional, institutional, or enterprise AI workspaces (Anthropic Claude, OpenAI, Local LLMs).
+- Professional client or organizational work product deliverables generated using these prompt systems.
 - Internal API and automated Zapier / Make pipelines.
 
 3. Restrictions:

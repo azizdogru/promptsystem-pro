@@ -15,6 +15,91 @@ import {
 } from 'docx';
 import { RoleSystemKit } from '@/types';
 
+function getDomainStandardLabel(category: RoleSystemKit['category']): string {
+  switch (category) {
+    case 'Education & Academia':
+      return 'Curricular & Pedagogical Framework';
+    case 'Trades & Construction':
+      return 'Building Code & Trade Licensure Standard';
+    case 'Culinary & Hospitality':
+      return 'Food Safety & Culinary Hospitality Standard';
+    case 'Healthcare & Clinical':
+    case 'Fitness & Wellness':
+      return 'Clinical Protocol & Health Practice Standard';
+    case 'Legal & Compliance':
+      return 'Professional Ethics & Bar Standards';
+    case 'Finance & Investment':
+      return 'Financial Accounting & Statutory Standard';
+    case 'Real Estate':
+      return 'Real Estate Standards & Licensure Framework';
+    case 'Engineering & Tech':
+    case 'Marketing & Growth':
+    case 'Creative Arts & Media':
+    case 'E-Commerce & Retail':
+    case 'Executive & Strategy':
+    default:
+      return 'Accredited Professional Operating Standard';
+  }
+}
+
+function getAccountableLeadTitle(category: RoleSystemKit['category']): string {
+  switch (category) {
+    case 'Education & Academia':
+      return 'Department Chair & Lead Educator';
+    case 'Trades & Construction':
+      return 'Site Superintendent & Licensed Master Contractor';
+    case 'Culinary & Hospitality':
+      return 'Executive Chef & Operations Director';
+    case 'Healthcare & Clinical':
+      return 'Clinical Director & Attending Practitioner';
+    case 'Fitness & Wellness':
+      return 'Head Strength Coach & Studio Director';
+    case 'Legal & Compliance':
+      return 'Managing Partner & Senior Counsel';
+    case 'Finance & Investment':
+      return 'Managing Director & Senior Controller';
+    case 'Real Estate':
+      return 'Principal Broker & Managing Director';
+    case 'Engineering & Tech':
+      return 'Staff Systems Architect & VP of Engineering';
+    case 'Marketing & Growth':
+      return 'Growth Director & Head of Marketing';
+    case 'Creative Arts & Media':
+      return 'Executive Creative Director';
+    case 'Executive & Strategy':
+      return 'Chief Executive Officer & Board Director';
+    default:
+      return 'Lead Professional & Practice Director';
+  }
+}
+
+function getWorkplaceContextName(category: RoleSystemKit['category']): string {
+  switch (category) {
+    case 'Education & Academia':
+      return 'ACADEMIC DEPARTMENT & CLASSROOM OPERATIONS';
+    case 'Trades & Construction':
+      return 'JOB SITE OPERATIONS & CONTRACTING PRACTICE';
+    case 'Culinary & Hospitality':
+      return 'COMMERCIAL KITCHEN & HOSPITALITY BRIGADE';
+    case 'Healthcare & Clinical':
+      return 'CLINICAL PRACTICE & PATIENT CARE FACILITY';
+    case 'Fitness & Wellness':
+      return 'TRAINING FACILITY & ATHLETIC COACHING PRACTICE';
+    case 'Legal & Compliance':
+      return 'LEGAL PRACTICE & MATTER MANAGEMENT';
+    case 'Finance & Investment':
+      return 'CORPORATE FINANCE & ADVISORY PRACTICE';
+    case 'Real Estate':
+      return 'COMMERCIAL BROKERAGE & ASSET OPERATIONS';
+    case 'Engineering & Tech':
+      return 'PRODUCTION ENGINEERING & INFRASTRUCTURE ORG';
+    case 'Creative Arts & Media':
+      return 'CREATIVE STUDIO & PRODUCTION PRACTICE';
+    default:
+      return 'PROFESSIONAL OPERATING PRACTICE';
+  }
+}
+
 export async function generateRoleDocx(kit: RoleSystemKit): Promise<Uint8Array> {
   const primaryNavy = '0F172A'; // Slate 900
   const secondaryNavy = '1E293B'; // Slate 800
@@ -86,9 +171,9 @@ export async function generateRoleDocx(kit: RoleSystemKit): Promise<Uint8Array> 
             spacing: { before: 240, after: 120 },
             children: [
               new TextRun({
-                text: '[ENTERPRISE WORKSPACE / OPERATING PRACTICE NAME HERE]',
+                text: `PROMPTSYSTEM PRO ENTERPRISE AI • ${getWorkplaceContextName(kit.category)}`,
                 bold: true,
-                size: 24,
+                size: 20,
                 color: emerald600,
                 font: 'Calibri',
               }),
@@ -111,7 +196,7 @@ export async function generateRoleDocx(kit: RoleSystemKit): Promise<Uint8Array> 
             spacing: { before: 120, after: 360 },
             children: [
               new TextRun({
-                text: `Standard Version 2026.2 • Regulatory Accreditation: ${kit.badge}`,
+                text: `Operational Version 2026.2 • ${getDomainStandardLabel(kit.category)}: ${kit.badge}`,
                 italics: true,
                 size: 20,
                 color: slate600,
@@ -221,8 +306,8 @@ export async function generateRoleDocx(kit: RoleSystemKit): Promise<Uint8Array> 
           new Paragraph({
             spacing: { before: 60, after: 60 },
             children: [
-              new TextRun({ text: 'Primary AI Model Selection: ', bold: true, size: 20 }),
-              new TextRun({ text: 'Optimized primarily for Anthropic Claude 3.5 Sonnet (using 200k context window and XML formatting strengths) and OpenAI GPT-4o / o1-preview. Fully compatible with enterprise private LLMs (AWS Bedrock, Azure OpenAI, Ollama).', size: 20 }),
+              new TextRun({ text: 'Primary AI Model Architecture: ', bold: true, size: 20 }),
+              new TextRun({ text: 'Optimized for Frontier LLMs with Advanced Reasoning (tested across Anthropic Claude 3.5 Sonnet / Claude Opus XML project environments, OpenAI GPT-4o / o1-series Custom GPTs, and Enterprise Private LLMs).', size: 20 }),
             ],
           }),
 
@@ -248,7 +333,7 @@ export async function generateRoleDocx(kit: RoleSystemKit): Promise<Uint8Array> 
             spacing: { before: 60, after: 180 },
             children: [
               new TextRun({
-                text: 'Before deploying generative AI in commercial practice, all staff and practitioners must strictly observe the following mandatory governance rules to eliminate data exfiltration and statutory liabilities.',
+                text: 'Before deploying generative AI in professional practice, all staff and practitioners must strictly observe the following mandatory governance rules to eliminate data exfiltration and liability exposure.',
                 size: 20,
                 color: slate600,
                 font: 'Calibri',
@@ -385,7 +470,7 @@ export async function generateRoleDocx(kit: RoleSystemKit): Promise<Uint8Array> 
               spacing: { before: 0, after: 80 },
               children: [
                 new TextRun({
-                  text: `Category: ${chain.category}  |  Model: ${chain.recommendedModel}  |  Complexity: ${chain.complexity}  |  Tokens: ~${chain.estimatedTokens}`,
+                  text: `Category: ${chain.category}  |  Recommended Model: ${chain.recommendedModel}  |  Complexity: ${chain.complexity}  |  Tokens: ~${chain.estimatedTokens}`,
                   bold: true,
                   size: 18,
                   color: emerald600,
@@ -396,7 +481,7 @@ export async function generateRoleDocx(kit: RoleSystemKit): Promise<Uint8Array> 
             new Paragraph({
               spacing: { before: 40, after: 40 },
               children: [
-                new TextRun({ text: 'Core Business Objective: ', bold: true, size: 20 }),
+                new TextRun({ text: 'Core Professional Objective: ', bold: true, size: 20 }),
                 new TextRun({ text: chain.objective, size: 20 }),
               ],
             }),
@@ -620,7 +705,7 @@ export async function generateRoleDocx(kit: RoleSystemKit): Promise<Uint8Array> 
             spacing: { before: 240, after: 180 },
             children: [
               new TextRun({
-                text: 'PART VII: 30-60-90 DAY FIRM AI ADOPTION ROADMAP',
+                text: 'PART VII: 30-60-90 DAY PROFESSIONAL AI ADOPTION ROADMAP',
                 bold: true,
                 size: 26,
                 color: primaryNavy,
@@ -692,7 +777,7 @@ export async function generateRoleDocx(kit: RoleSystemKit): Promise<Uint8Array> 
             spacing: { before: 60, after: 180 },
             children: [
               new TextRun({
-                text: 'To ensure 100% statutory compliance and zero hallucination drift, the Lead Practitioner must execute this verification checklist on all AI-assisted deliverables.',
+                text: `To ensure rigorous professional execution, quality consistency, and zero hallucination drift, the ${getAccountableLeadTitle(kit.category)} must execute this verification checklist on all AI-assisted deliverables.`,
                 size: 20,
                 color: slate600,
                 font: 'Calibri',
@@ -734,7 +819,7 @@ export async function generateRoleDocx(kit: RoleSystemKit): Promise<Uint8Array> 
             spacing: { before: 100, after: 200 },
             children: [
               new TextRun({
-                text: `This document certifies that the purchaser has acquired a perpetual, royalty-free commercial single-seat operating license for the ${kit.role} AI Operating System. The licensee is authorized to utilize all system prompts, prompt chains, knowledge base templates, and automation workflows across internal commercial operations.`,
+                text: `This document certifies that the purchaser has acquired a perpetual, royalty-free commercial single-seat operating license for the ${kit.role} AI Operating System. The licensee is authorized to utilize all system prompts, prompt chains, knowledge base templates, and automation workflows across internal professional operations.`,
                 size: 20,
                 font: 'Calibri',
               }),
