@@ -24,9 +24,32 @@ export async function POST(req: NextRequest) {
       console.warn('Lemon Squeezy Webhook: LEMONSQUEEZY_WEBHOOK_SECRET is not configured. Processing in test mode.');
     }
 
-    let payload: any;
+    interface WebhookPayload {
+      meta?: {
+        event_name?: string;
+      };
+      data?: {
+        attributes?: {
+          user_email?: string;
+          customer_email?: string;
+          user_name?: string;
+          order_number?: string | number;
+          identifier?: string;
+          total_formatted?: string;
+          urls?: {
+            receipt?: string;
+          };
+          first_order_item?: {
+            variant_name?: string;
+            product_name?: string;
+          };
+        };
+      };
+    }
+
+    let payload: WebhookPayload;
     try {
-      payload = JSON.parse(rawBody);
+      payload = JSON.parse(rawBody) as WebhookPayload;
     } catch {
       return NextResponse.json({ error: 'Invalid JSON payload' }, { status: 400 });
     }
@@ -133,10 +156,11 @@ export async function POST(req: NextRequest) {
       event: eventName,
       timestamp: new Date().toISOString(),
     });
-  } catch (error: any) {
+  } catch (error) {
+    const errMessage = error instanceof Error ? error.message : 'Internal webhook error';
     console.error('[LemonSqueezy Webhook] Handler error:', error);
     return NextResponse.json(
-      { error: error?.message || 'Internal webhook error' },
+      { error: errMessage },
       { status: 500 }
     );
   }
