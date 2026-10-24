@@ -1,3 +1,4 @@
+import { SisterTools } from './SisterTools';
 import React from 'react';
 import Link from 'next/link';
 import { Terminal, Shield, Sparkles, CheckCircle2 } from 'lucide-react';
@@ -84,6 +85,8 @@ export default function Footer() {
           </div>
         </div>
 
+        <SisterTools />
+
         <div className="mt-12 border-t border-slate-900 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-slate-500 gap-4">
           <p>© {new Date().getFullYear()} PromptSystem Pro Enterprise Systems. All rights reserved.</p>
           <div className="flex items-center gap-6">
@@ -96,6 +99,7 @@ export default function Footer() {
             </Link>
           </div>
         </div>
+
       </div>
     </footer>
   );
