@@ -12,10 +12,6 @@ export function SeoSchema() {
     },
         image: 'https://promptsystem-pro.vercel.app/og-image.png',
     sku: 'PROMPTSYSTEM-PRO-PRO-2026',
-    brand: {
-      '@type': 'Brand',
-      name: 'Prompt System Pro AI Prompts',
-    },
     offers: {
       '@type': 'Offer',
       price: '29.00',
