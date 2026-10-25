@@ -246,18 +246,63 @@ export default function CompetitorComparisonPage({ params }: Props) {
   const productSchema = {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: `Enterprise AI Prompt Architecture & System Templates (vs ${competitor.name})`,
-    description: `Attorney-grade production LLM prompt engineering chains, evaluation harnesses, and system instructions with 2026 statutory standards. A transparent alternative to ${competitor.name}.`,
+    name: `Prompt System Pro AI Prompts (vs ${competitor.name})`,
+    description: `Attorney-grade 2026 statutory legal documentation. A transparent, one-time alternative to ${competitor.name} with no monthly subscription traps.`,
+    image: 'https://promptsystem-pro.vercel.app/og-image.png',
+    sku: `PROMPTSYSTEM-PRO-VS-${competitor.slug.toUpperCase()}-2026`,
+    brand: {
+      '@type': 'Brand',
+      name: 'Prompt System Pro AI Prompts',
+    },
     offers: {
       '@type': 'Offer',
       price: '9.90',
       priceCurrency: 'USD',
+      priceValidUntil: '2027-12-31',
       availability: 'https://schema.org/InStock',
+      url: `https://promptsystem-pro.vercel.app/vs/${competitor.slug}`,
+      hasMerchantReturnPolicy: {
+        '@type': 'MerchantReturnPolicy',
+        applicableCountry: 'US',
+        returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+        merchantReturnDays: 30,
+        returnMethod: 'https://schema.org/ReturnOnline',
+        returnFees: 'https://schema.org/FreeReturn',
+      },
+      shippingDetails: {
+        '@type': 'OfferShippingDetails',
+        shippingRate: {
+          '@type': 'MonetaryAmount',
+          value: '0.00',
+          currency: 'USD',
+        },
+        shippingDestination: {
+          '@type': 'DefinedRegion',
+          addressCountry: 'US',
+        },
+        deliveryTime: {
+          '@type': 'ShippingDeliveryTime',
+          handlingTime: {
+            '@type': 'QuantitativeValue',
+            minValue: 0,
+            maxValue: 0,
+            unitCode: 'DAY',
+          },
+          transitTime: {
+            '@type': 'QuantitativeValue',
+            minValue: 0,
+            maxValue: 0,
+            unitCode: 'DAY',
+          },
+        },
+      },
     },
     aggregateRating: {
       '@type': 'AggregateRating',
       ratingValue: '4.9',
       reviewCount: '1240',
+      bestRating: '5',
+      worstRating: '1',
     },
   };
 

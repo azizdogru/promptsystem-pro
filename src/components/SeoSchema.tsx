@@ -10,12 +10,54 @@ export function SeoSchema() {
       '@type': 'Brand',
       name: "PromptSystem Pro",
     },
+        image: 'https://promptsystem-pro.vercel.app/og-image.png',
+    sku: 'PROMPTSYSTEM-PRO-PRO-2026',
+    brand: {
+      '@type': 'Brand',
+      name: 'Prompt System Pro AI Prompts',
+    },
     offers: {
       '@type': 'Offer',
-      price: "29.00",
+      price: '29.00',
       priceCurrency: 'USD',
+      priceValidUntil: '2027-12-31',
       availability: 'https://schema.org/InStock',
-      url: "https://promptsystem-pro.vercel.app",
+      url: 'https://promptsystem-pro.vercel.app',
+      hasMerchantReturnPolicy: {
+        '@type': 'MerchantReturnPolicy',
+        applicableCountry: 'US',
+        returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+        merchantReturnDays: 30,
+        returnMethod: 'https://schema.org/ReturnOnline',
+        returnFees: 'https://schema.org/FreeReturn',
+      },
+      shippingDetails: {
+        '@type': 'OfferShippingDetails',
+        shippingRate: {
+          '@type': 'MonetaryAmount',
+          value: '0.00',
+          currency: 'USD',
+        },
+        shippingDestination: {
+          '@type': 'DefinedRegion',
+          addressCountry: 'US',
+        },
+        deliveryTime: {
+          '@type': 'ShippingDeliveryTime',
+          handlingTime: {
+            '@type': 'QuantitativeValue',
+            minValue: 0,
+            maxValue: 0,
+            unitCode: 'DAY',
+          },
+          transitTime: {
+            '@type': 'QuantitativeValue',
+            minValue: 0,
+            maxValue: 0,
+            unitCode: 'DAY',
+          },
+        },
+      },
     },
     aggregateRating: {
       '@type': 'AggregateRating',
