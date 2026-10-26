@@ -258,6 +258,7 @@ export default function CompetitorComparisonPage({ params }: Props) {
       '@type': 'Offer',
       price: '9.90',
       priceCurrency: 'USD',
+      validFrom: '2024-01-01',
       priceValidUntil: '2027-12-31',
       availability: 'https://schema.org/InStock',
       url: `https://promptsystem-pro.vercel.app/vs/${competitor.slug}`,
@@ -266,7 +267,7 @@ export default function CompetitorComparisonPage({ params }: Props) {
         applicableCountry: 'US',
         returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
         merchantReturnDays: 30,
-        returnMethod: 'https://schema.org/ReturnOnline',
+        returnMethod: 'https://schema.org/ReturnByMail',
         returnFees: 'https://schema.org/FreeReturn',
       },
       shippingDetails: {
