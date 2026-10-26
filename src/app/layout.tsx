@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_BASE_URL || 'https://promptsystem-pro.vercel.app'
   ),
+  alternates: {
+    canonical: 'https://promptsystem-pro.vercel.app',
+  },
   title: {
     default: 'PromptSystem Pro — Production AI Prompt Chains & Operating Systems for High-Impact Roles',
     template: '%s | PromptSystem Pro',

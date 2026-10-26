@@ -218,7 +218,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'article',
     },
     alternates: {
-      canonical: `/vs/${params.competitor}`,
+      canonical: `https://promptsystem-pro.vercel.app/vs/${params.competitor}`,
     },
   };
 }
