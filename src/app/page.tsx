@@ -156,7 +156,8 @@ export default function HomePage() {
       </section>
 
       {/* Feature Highlights Grid */}
-      <section id="features" className="border-y border-slate-800 bg-slate-900/30 px-4 py-16 sm:px-6 lg:px-8">
+      <section id="features" className="border-y border-slate-800 bg-slate-900/30 px-4 py-16 sm:px-6 lg:px-8 scroll-mt-12">
+        <div id="compliance" className="scroll-mt-24"></div>
         <div className="mx-auto max-w-7xl">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-6 space-y-3">
