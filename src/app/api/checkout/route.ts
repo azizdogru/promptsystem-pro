@@ -91,7 +91,12 @@ export async function POST(req: Request) {
       }
     }
 
-    const fallbackUrl = `https://depositdemand.lemonsqueezy.com/checkout/buy/44ba076c-b57d-429b-af3d-6962ccf4dc46?checkout[custom][role]=${roleSlug || 'all'}&checkout[custom][plan]=${plan}&checkout[success_url]=${encodeURIComponent(redirectUrl)}`;
+    const fallbackBaseUrl = process.env.LEMONSQUEEZY_CHECKOUT_URL;
+    if (!fallbackBaseUrl || fallbackBaseUrl.includes('44ba076c-b57d-429b-af3d-6962ccf4dc46')) {
+      return NextResponse.json({ error: 'Payment gateway temporarily unavailable. Please try again shortly.' }, { status: 503 });
+    }
+
+    const fallbackUrl = `${fallbackBaseUrl}?checkout[custom][role]=${roleSlug || 'all'}&checkout[custom][plan]=${plan}&checkout[success_url]=${encodeURIComponent(redirectUrl)}`;
 
     return NextResponse.json({ url: fallbackUrl });
   } catch (error) {
