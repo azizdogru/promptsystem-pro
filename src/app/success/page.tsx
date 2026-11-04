@@ -22,6 +22,7 @@ import { ALL_ROLES, getRoleBySlug } from '@/data/roles';
 
 function SuccessContent() {
   const searchParams = useSearchParams();
+  const token = searchParams.get('token') || searchParams.get('order_id') || searchParams.get('checkout_id') || '';
   const slug = searchParams.get('slug') || searchParams.get('role');
   const plan = searchParams.get('plan') || 'single';
 
@@ -31,17 +32,84 @@ function SuccessContent() {
   const [promptTab, setPromptTab] = useState<'claude' | 'chatgpt'>('claude');
 
   useEffect(() => {
-    try {
-      confetti({
-        particleCount: 120,
-        spread: 80,
-        origin: { y: 0.6 },
-        colors: ['#10B981', '#06B6D4', '#F59E0B', '#3B82F6'],
-      });
-    } catch (e) {
-      // ignore
+    if (token) {
+      try {
+        confetti({
+          particleCount: 120,
+          spread: 80,
+          origin: { y: 0.6 },
+          colors: ['#10B981', '#06B6D4', '#F59E0B', '#3B82F6'],
+        });
+      } catch (e) {
+        // ignore
+      }
     }
-  }, []);
+  }, [token]);
+
+  const handleStartCheckout = async () => {
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ roleSlug: slug || 'staff-software-engineer-ai-prompts-system-workflows', plan: 'single' }),
+      });
+      const data = await res.json();
+      if (data.url || data.checkoutUrl) {
+        window.location.href = data.url || data.checkoutUrl;
+      }
+    } catch (e) {
+      console.error(e);
+      window.location.href = '/#pricing';
+    }
+  };
+
+  if (!token) {
+    return (
+      <div className="mx-auto max-w-3xl px-4 py-20 text-center text-white">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition mb-8"
+        >
+          <ArrowRight className="h-4 w-4 rotate-180" />
+          <span>Back to PromptSystem Pro</span>
+        </Link>
+
+        <div className="rounded-3xl border border-amber-500/30 bg-slate-900/90 p-8 sm:p-12 shadow-2xl space-y-6">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            <ShieldCheck className="h-8 w-8" />
+          </div>
+
+          <div className="space-y-2">
+            <span className="text-xs font-semibold uppercase tracking-wider text-amber-400">
+              Purchase Verification Required
+            </span>
+            <h1 className="text-2xl sm:text-3xl font-black text-white">
+              AI Prompt System Access Protected
+            </h1>
+            <p className="text-sm text-slate-400 max-w-lg mx-auto leading-relaxed">
+              No active purchase authorization was detected in this browser session. If you have already ordered, please click the download link in your confirmation email or unlock instant access below.
+            </p>
+          </div>
+
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button
+              onClick={handleStartCheckout}
+              className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-8 py-3.5 text-sm font-bold text-white shadow-xl shadow-emerald-500/25 hover:from-emerald-400 hover:to-teal-500 transition active:scale-95"
+            >
+              <Download className="h-4 w-4" />
+              <span>Unlock AI Prompt System ($19)</span>
+            </button>
+            <Link
+              href="/#roles"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-800/80 px-6 py-3.5 text-sm font-semibold text-slate-200 hover:bg-slate-700 transition"
+            >
+              <span>Explore All 102 Roles</span>
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const activePromptText =
     promptTab === 'claude'
@@ -107,7 +175,7 @@ function SuccessContent() {
           </div>
 
           <a
-            href={`/api/download?slug=${safeSlug}&format=zip`}
+            href={`/api/download?slug=${safeSlug}&format=zip&token=${encodeURIComponent(token)}`}
             className="flex items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-6 py-4 text-sm font-bold text-slate-950 shadow-lg shadow-emerald-500/25 transition hover:brightness-110 active:scale-98 shrink-0 w-full md:w-auto"
           >
             <FolderArchive className="h-5 w-5" />
@@ -131,7 +199,7 @@ function SuccessContent() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* DOCX Download */}
           <a
-            href={`/api/download?slug=${safeSlug}&format=docx`}
+            href={`/api/download?slug=${safeSlug}&format=docx&token=${encodeURIComponent(token)}`}
             className="group flex items-start gap-4 rounded-xl border border-slate-800 bg-slate-950 p-4 transition hover:border-emerald-500 hover:bg-slate-900/80 hover:shadow-lg"
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 group-hover:scale-105 transition">
@@ -167,7 +235,7 @@ function SuccessContent() {
 
           {/* Markdown Playbook */}
           <a
-            href={`/api/download?slug=${safeSlug}&format=md`}
+            href={`/api/download?slug=${safeSlug}&format=md&token=${encodeURIComponent(token)}`}
             className="group flex items-start gap-4 rounded-xl border border-slate-800 bg-slate-950 p-4 transition hover:border-emerald-500 hover:bg-slate-900/80 hover:shadow-lg"
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 group-hover:scale-105 transition">
@@ -185,7 +253,7 @@ function SuccessContent() {
 
           {/* Claude/GPT JSON Config */}
           <a
-            href={`/api/download?slug=${safeSlug}&format=json`}
+            href={`/api/download?slug=${safeSlug}&format=json&token=${encodeURIComponent(token)}`}
             className="group flex items-start gap-4 rounded-xl border border-slate-800 bg-slate-950 p-4 transition hover:border-emerald-500 hover:bg-slate-900/80 hover:shadow-lg"
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20 group-hover:scale-105 transition">

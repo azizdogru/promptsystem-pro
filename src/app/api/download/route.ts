@@ -3,6 +3,7 @@ import { getRoleBySlug, ALL_ROLES } from '@/data/roles';
 import { generateRoleMarkdown } from '@/lib/markdownGenerator';
 import { generateRoleDocx } from '@/lib/docxGenerator';
 import { generateRoleZip } from '@/lib/zipGenerator';
+import { verifyDownloadToken } from '@/lib/downloadAuth';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,6 +12,14 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const slug = searchParams.get('slug') || searchParams.get('role');
     const format = searchParams.get('format') || 'docx';
+    const token = searchParams.get('token');
+
+    if (!verifyDownloadToken(token, 'promptsystem_download')) {
+      return NextResponse.json(
+        { error: 'Valid purchase token required to download professional AI prompt system' },
+        { status: 403 }
+      );
+    }
 
     const kit = slug ? getRoleBySlug(slug) : ALL_ROLES[0];
     if (!kit) {
