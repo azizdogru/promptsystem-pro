@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, Scale, Lock, Star } from 'lucide-react';
+import { ShieldCheck, Cpu, Lock, Star } from 'lucide-react';
 
 export function TrustBar() {
   return (
@@ -10,18 +10,18 @@ export function TrustBar() {
             <ShieldCheck className="w-4 h-4" />
           </div>
           <div>
-            <p className="font-bold text-white text-xs">Zero Subscription Trap</p>
-            <p className="text-[11px] text-slate-400 leading-relaxed mt-0.5">Pay once, own forever. No hidden recurring fees or monthly club charges.</p>
+            <p className="font-bold text-white text-xs">Production AI Role Architectures</p>
+            <p className="text-[11px] text-slate-400 leading-relaxed mt-0.5">Engineered for Claude 3.7 & GPT-4o with zero-hallucination structured constraints.</p>
           </div>
         </div>
 
         <div className="flex items-start gap-3">
           <div className="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 shrink-0 mt-0.5">
-            <Scale className="w-4 h-4" />
+            <Cpu className="w-4 h-4" />
           </div>
           <div>
-            <p className="font-bold text-white text-xs">2026 Statutory Compliance</p>
-            <p className="text-[11px] text-slate-400 leading-relaxed mt-0.5">Verified against active U.S. 50-state statutes and administrative codes.</p>
+            <p className="font-bold text-white text-xs">Instant ZIP & Markdown Bundle</p>
+            <p className="text-[11px] text-slate-400 leading-relaxed mt-0.5">Raw system prompts, XML schema rules, few-shot examples & evaluation tests.</p>
           </div>
         </div>
 
@@ -30,8 +30,8 @@ export function TrustBar() {
             <Lock className="w-4 h-4" />
           </div>
           <div>
-            <p className="font-bold text-white text-xs">Bank-Grade 256-Bit SSL</p>
-            <p className="text-[11px] text-slate-400 leading-relaxed mt-0.5">Encrypted payment processing & instant watermark-free document access.</p>
+            <p className="font-bold text-white text-xs">Commercial & API Ready</p>
+            <p className="text-[11px] text-slate-400 leading-relaxed mt-0.5">Full commercial license for direct embedding into production SaaS & AI agents.</p>
           </div>
         </div>
 
@@ -40,8 +40,8 @@ export function TrustBar() {
             <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
           </div>
           <div>
-            <p className="font-bold text-white text-xs">Rated 4.9/5 by 14,000+ Users</p>
-            <p className="text-[11px] text-slate-400 leading-relaxed mt-0.5">Trusted by tenants, property owners, and SMBs across all 50 states.</p>
+            <p className="font-bold text-white text-xs">Built for AI Engineers & Builders</p>
+            <p className="text-[11px] text-slate-400 leading-relaxed mt-0.5">Tested across thousands of production API calls and benchmark prompt suites.</p>
           </div>
         </div>
       </div>
