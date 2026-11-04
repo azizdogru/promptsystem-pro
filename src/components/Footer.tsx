@@ -108,7 +108,14 @@ export default function Footer() {
           </div>
         </div>
 
-              <SeoSchema />
+              <div className="mt-8 pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+          <p>© {new Date().getFullYear()} All rights reserved.</p>
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Link href="/privacy" className="hover:text-slate-300 transition">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-slate-300 transition">Terms of Service</Link>
+          </div>
+        </div>
+        <SeoSchema />
       </div>
     </footer>
   );
