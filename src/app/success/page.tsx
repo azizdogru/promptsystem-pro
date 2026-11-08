@@ -22,9 +22,13 @@ import { ALL_ROLES, getRoleBySlug } from '@/data/roles';
 
 function SuccessContent() {
   const searchParams = useSearchParams();
-  const token = searchParams.get('token') || searchParams.get('order_id') || searchParams.get('checkout_id') || '';
+  const urlToken = searchParams.get('token') || '';
+  const orderParam = searchParams.get('order') || searchParams.get('order_id') || searchParams.get('checkout_id') || '';
   const slug = searchParams.get('slug') || searchParams.get('role');
   const plan = searchParams.get('plan') || 'single';
+
+  const [activeToken, setActiveToken] = useState<string>(urlToken);
+  const [orderId, setOrderId] = useState<string>(orderParam);
 
   const isBundle = plan === 'bundle' || !slug;
   const roleKit = slug ? getRoleBySlug(slug) : ALL_ROLES[0];
@@ -32,7 +36,35 @@ function SuccessContent() {
   const [promptTab, setPromptTab] = useState<'claude' | 'chatgpt'>('claude');
 
   useEffect(() => {
-    if (token) {
+    if (urlToken) {
+      setActiveToken(urlToken);
+      try {
+        localStorage.setItem('promptsystem_download_token', urlToken);
+      } catch {}
+    } else {
+      try {
+        const cached = localStorage.getItem('promptsystem_download_token');
+        if (cached) setActiveToken(cached);
+      } catch {}
+    }
+
+    if (orderParam) {
+      setOrderId(orderParam);
+      try {
+        localStorage.setItem('promptsystem_order_id', orderParam);
+      } catch {}
+    } else {
+      try {
+        const cachedOrder = localStorage.getItem('promptsystem_order_id');
+        if (cachedOrder) setOrderId(cachedOrder);
+      } catch {}
+    }
+  }, [urlToken, orderParam]);
+
+  const hasAccess = Boolean(activeToken || orderId);
+
+  useEffect(() => {
+    if (hasAccess) {
       try {
         confetti({
           particleCount: 120,
@@ -44,7 +76,7 @@ function SuccessContent() {
         // ignore
       }
     }
-  }, [token]);
+  }, [hasAccess]);
 
   const handleStartCheckout = async () => {
     try {
@@ -63,7 +95,7 @@ function SuccessContent() {
     }
   };
 
-  if (!token) {
+  if (!hasAccess) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-20 text-center text-white">
         <Link
@@ -175,7 +207,7 @@ function SuccessContent() {
           </div>
 
           <a
-            href={`/api/download?slug=${safeSlug}&format=zip&token=${encodeURIComponent(token)}`}
+            href={`/api/download?slug=${safeSlug}&format=zip&token=${encodeURIComponent(activeToken)}&order=${encodeURIComponent(orderId)}`}
             className="flex items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-6 py-4 text-sm font-bold text-slate-950 shadow-lg shadow-emerald-500/25 transition hover:brightness-110 active:scale-98 shrink-0 w-full md:w-auto"
           >
             <FolderArchive className="h-5 w-5" />
@@ -199,7 +231,7 @@ function SuccessContent() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* DOCX Download */}
           <a
-            href={`/api/download?slug=${safeSlug}&format=docx&token=${encodeURIComponent(token)}`}
+            href={`/api/download?slug=${safeSlug}&format=docx&token=${encodeURIComponent(activeToken)}&order=${encodeURIComponent(orderId)}`}
             className="group flex items-start gap-4 rounded-xl border border-slate-800 bg-slate-950 p-4 transition hover:border-emerald-500 hover:bg-slate-900/80 hover:shadow-lg"
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 group-hover:scale-105 transition">
@@ -235,7 +267,7 @@ function SuccessContent() {
 
           {/* Markdown Playbook */}
           <a
-            href={`/api/download?slug=${safeSlug}&format=md&token=${encodeURIComponent(token)}`}
+            href={`/api/download?slug=${safeSlug}&format=md&token=${encodeURIComponent(activeToken)}&order=${encodeURIComponent(orderId)}`}
             className="group flex items-start gap-4 rounded-xl border border-slate-800 bg-slate-950 p-4 transition hover:border-emerald-500 hover:bg-slate-900/80 hover:shadow-lg"
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 group-hover:scale-105 transition">
@@ -253,7 +285,7 @@ function SuccessContent() {
 
           {/* Claude/GPT JSON Config */}
           <a
-            href={`/api/download?slug=${safeSlug}&format=json&token=${encodeURIComponent(token)}`}
+            href={`/api/download?slug=${safeSlug}&format=json&token=${encodeURIComponent(activeToken)}&order=${encodeURIComponent(orderId)}`}
             className="group flex items-start gap-4 rounded-xl border border-slate-800 bg-slate-950 p-4 transition hover:border-emerald-500 hover:bg-slate-900/80 hover:shadow-lg"
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-purple-500/10 text-purple-400 border border-purple-500/20 group-hover:scale-105 transition">

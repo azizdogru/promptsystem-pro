@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
+import { createDownloadToken } from '@/lib/downloadAuth';
 
 export async function POST(req: NextRequest) {
   try {
@@ -67,8 +68,11 @@ export async function POST(req: NextRequest) {
       const receiptUrl = attributes.urls?.receipt || '';
       const productName = attributes.first_order_item?.variant_name || attributes.first_order_item?.product_name || 'Enterprise AI Prompt Architecture & System Templates';
 
+      // Generate a secure 30-day HMAC download token for instant customer fulfillment
+      const downloadToken = createDownloadToken('promptsystem_download', 720);
+
       const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://promptsystem-pro.vercel.app';
-      const accessUrl = `${baseUrl}/success?order=${orderNumber}`;
+      const accessUrl = `${baseUrl}/success?order=${orderNumber}&token=${encodeURIComponent(downloadToken)}`;
 
       // Automated email delivery via Resend API
       const resendApiKey = process.env.RESEND_API_KEY;
@@ -85,7 +89,7 @@ export async function POST(req: NextRequest) {
     .card { max-width: 580px; margin: 0 auto; background: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
     .header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 32px 24px; text-align: center; color: #ffffff; }
     .content { padding: 32px 24px; }
-    .btn { display: inline-block; background-color: #2563eb; color: #ffffff !important; font-weight: 700; font-size: 15px; padding: 14px 28px; border-radius: 10px; text-decoration: none; margin: 20px 0; }
+    .btn { display: inline-block; background-color: #6366f1; color: #ffffff !important; font-weight: 700; font-size: 15px; padding: 14px 28px; border-radius: 10px; text-decoration: none; margin: 20px 0; }
     .info-box { background: #f1f5f9; border-radius: 8px; padding: 16px; margin: 20px 0; font-size: 13px; line-height: 1.5; }
     .footer { text-align: center; padding: 20px; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0; }
   </style>
@@ -93,30 +97,31 @@ export async function POST(req: NextRequest) {
 <body>
   <div class="card">
     <div class="header">
-      <h1 style="margin: 0; font-size: 24px; font-weight: 800;">Payment Confirmed</h1>
+      <h1 style="margin: 0; font-size: 24px; font-weight: 800;">Order Confirmed</h1>
       <p style="margin: 8px 0 0; color: #94a3b8; font-size: 14px;">Order #${orderNumber} • ${totalFormatted}</p>
     </div>
     <div class="content">
       <p>Hello <strong>${customerName}</strong>,</p>
-      <p>Thank you for your order. Your official <strong>${productName}</strong> has been generated and is ready for permanent download.</p>
+      <p>Thank you for purchasing <strong>${productName}</strong>. Your production-grade AI prompt engineering chains, system instructions, and governance guidelines are ready for instant download.</p>
       
       <div style="text-align: center;">
-        <a href="${accessUrl}" class="btn">Download Official Document (PDF)</a>
+        <a href="${accessUrl}" class="btn">Download Complete AI Prompt Kit</a>
       </div>
 
       <div class="info-box">
-        <strong>Document Instructions:</strong>
+        <strong>Getting Started Instructions:</strong>
         <ul style="margin: 8px 0 0; padding-left: 20px;">
-          <li>Review all names, dates, and terms for complete accuracy.</li>
-          <li>Save a signed copy for your permanent records.</li>
-          <li>If required, notarize or serve according to your state statutory instructions.</li>
+          <li>Download the complete package in Word (.docx), Markdown (.md), or Claude/ChatGPT JSON configurations.</li>
+          <li>Copy and paste system prompts directly into your custom GPTs, Claude Projects, or LLM API pipelines.</li>
+          <li>Review the role-specific onboarding roadmaps and governance guardrails.</li>
+          <li>Bookmark your download link for lifetime access to future prompt library additions.</li>
         </ul>
       </div>
 
-      ${receiptUrl ? `<p style="font-size: 13px; color: #64748b;">Official Lemon Squeezy Receipt: <a href="${receiptUrl}" style="color: #2563eb;">View Receipt</a></p>` : ''}
+      ${receiptUrl ? `<p style="font-size: 13px; color: #64748b;">Official Lemon Squeezy Receipt: <a href="${receiptUrl}" style="color: #6366f1;">View Receipt</a></p>` : ''}
     </div>
     <div class="footer">
-      <p>Instant Statutory Document Delivery System • 256-Bit SSL Encrypted</p>
+      <p>PromptSystem Pro • Enterprise AI Prompt Engineering Suite • 256-Bit SSL Encrypted</p>
     </div>
   </div>
 </body>
