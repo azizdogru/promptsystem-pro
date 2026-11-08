@@ -69,12 +69,55 @@ export default function RoleDetailPage({ params }: PageProps) {
         '@type': 'Product',
         name: `${kit.role} AI Operating System & Master Prompt Playbook`,
         description: kit.overview,
+        brand: {
+          '@type': 'Brand',
+          name: 'PromptSystem Pro',
+        },
+        image: `${baseUrl}/og-image.png`,
+        sku: `PROMPT-${kit.slug.toUpperCase()}-2026`,
         offers: {
           '@type': 'Offer',
           price: '19.00',
           priceCurrency: 'USD',
+          validFrom: '2024-01-01',
+          priceValidUntil: '2027-12-31',
           availability: 'https://schema.org/InStock',
           url: `${baseUrl}/${kit.slug}`,
+          hasMerchantReturnPolicy: {
+            '@type': 'MerchantReturnPolicy',
+            applicableCountry: 'US',
+            returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+            merchantReturnDays: 30,
+            returnMethod: 'https://schema.org/ReturnByMail',
+            returnFees: 'https://schema.org/FreeReturn',
+          },
+          shippingDetails: {
+            '@type': 'OfferShippingDetails',
+            shippingRate: {
+              '@type': 'MonetaryAmount',
+              value: '0.00',
+              currency: 'USD',
+            },
+            shippingDestination: {
+              '@type': 'DefinedRegion',
+              addressCountry: 'US',
+            },
+            deliveryTime: {
+              '@type': 'ShippingDeliveryTime',
+              handlingTime: {
+                '@type': 'QuantitativeValue',
+                minValue: 0,
+                maxValue: 0,
+                unitCode: 'DAY',
+              },
+              transitTime: {
+                '@type': 'QuantitativeValue',
+                minValue: 0,
+                maxValue: 0,
+                unitCode: 'DAY',
+              },
+            },
+          },
         },
       },
       {
