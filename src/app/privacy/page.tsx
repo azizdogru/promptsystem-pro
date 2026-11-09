@@ -5,6 +5,9 @@ import { ArrowLeft, ShieldCheck, Lock, EyeOff, FileText, CheckCircle } from 'luc
 export const metadata = {
   title: 'Privacy Policy | PromptSystem Pro',
   description: 'PromptSystem Pro official privacy policy, client-side data protection, and zero-storage architecture.',
+  alternates: {
+    canonical: '/privacy',
+  },
 };
 
 export default function PrivacyPage() {

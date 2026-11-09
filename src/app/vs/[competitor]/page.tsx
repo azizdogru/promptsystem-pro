@@ -202,7 +202,15 @@ const COMPETITORS: Record<string, CompetitorData> = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const competitor = COMPETITORS[params.competitor];
-  if (!competitor) return {};
+  if (!competitor) {
+    return {
+      title: 'AI System Comparison',
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://promptsystem-pro.vercel.app';
+  const canonicalUrl = `${baseUrl}/vs/${params.competitor}`;
 
   const title = `${competitor.headline} | Save Money With PromptSystemPro`;
   const description = competitor.slug === 'legalzoom'
@@ -216,9 +224,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       type: 'article',
+      url: canonicalUrl,
     },
     alternates: {
-      canonical: `https://promptsystem-pro.vercel.app/vs/${params.competitor}`,
+      canonical: canonicalUrl,
     },
   };
 }

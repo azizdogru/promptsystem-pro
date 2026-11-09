@@ -23,6 +23,9 @@ export const metadata = {
   title: 'PromptSystem Pro — Production AI Operating Systems for 102 Professional Roles',
   description:
     'Stop using generic $5 prompts. Deploy multi-step Chain-of-Thought AI operating systems, Claude Project setups, and executive workflows across 102 professional roles.',
+  alternates: {
+    canonical: '/',
+  },
 };
 
 export default function HomePage() {

@@ -35,7 +35,12 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps) {
   const kit = getRoleBySlug(params.slug);
-  if (!kit) return { title: 'Role System Not Found' };
+  if (!kit) {
+    return {
+      title: 'Role System Not Found',
+      robots: { index: false, follow: false },
+    };
+  }
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://promptsystem-pro.vercel.app';
   const canonicalUrl = `${baseUrl}/${kit.slug}`;

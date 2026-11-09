@@ -5,6 +5,9 @@ import { ArrowLeft, FileText, AlertTriangle, Scale, ShieldCheck } from 'lucide-r
 export const metadata = {
   title: 'Terms of Service | PromptSystem Pro',
   description: 'PromptSystem Pro terms of service, document license, and legal disclaimers.',
+  alternates: {
+    canonical: '/terms',
+  },
 };
 
 export default function TermsPage() {
