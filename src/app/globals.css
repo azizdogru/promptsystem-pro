@@ -40,3 +40,10 @@ body {
     font-size: 16px !important;
   }
 }
+
+/* Prevent horizontal wobble / page-level overflow on mobile while preserving inner scroll areas */
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
