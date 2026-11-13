@@ -47,3 +47,26 @@ body {
   max-width: 100%;
   overflow-x: clip;
 }
+
+/* iOS Safe Area & Micro-animations */
+:root {
+  --sab: env(safe-area-inset-bottom, 0px);
+}
+
+body {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom, 16px));
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
