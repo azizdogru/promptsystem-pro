@@ -263,6 +263,15 @@ export default function RoleDetailPage({ params }: PageProps) {
               variant="secondary"
               className="w-full sm:w-auto"
             />
+                <div className="flex items-center justify-center gap-1.5 py-1.5 px-3 text-[11px] font-semibold text-zinc-400 select-none mt-2">
+                  <span className="text-amber-400 font-bold">⚡</span>
+                  <span>1-Click Instant Checkout via</span>
+                  <span className="font-bold text-zinc-200">Apple Pay</span>
+                  <span className="text-zinc-600">•</span>
+                  <span className="font-bold text-zinc-200">Google Pay</span>
+                  <span className="text-zinc-600">•</span>
+                  <span className="text-zinc-400">Card</span>
+                </div>
           </div>
         </div>
       </section>
