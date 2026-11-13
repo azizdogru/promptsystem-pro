@@ -31,3 +31,12 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #334155;
 }
+
+/* Prevent iOS Safari automatic zoom on inputs (<16px triggers auto-zoom) */
+@media (max-width: 639px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
