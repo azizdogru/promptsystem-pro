@@ -1,3 +1,14 @@
+function normalizeEmail(email?: string): string {
+  if (!email || typeof email !== 'string') return '';
+  let clean = email.trim().toLowerCase();
+  clean = clean.replace(/@(yah00|yaho|yahooo)\.com$/, '@yahoo.com');
+  clean = clean.replace(/@(gmai|gamil|gmial|gmaill)\.com$/, '@gmail.com');
+  clean = clean.replace(/@(hotmial|hotmaill|hotmai)\.com$/, '@hotmail.com');
+  clean = clean.replace(/@(outlok|outloo|outlock)\.com$/, '@outlook.com');
+  clean = clean.replace(/@(iclod|icoud|icloud)\.com$/, '@icloud.com');
+  return clean;
+}
+
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { createDownloadToken } from '@/lib/downloadAuth';
@@ -61,12 +72,29 @@ export async function POST(req: NextRequest) {
     // Process order creation / completed payment
     if (eventName === 'order_created') {
       const attributes = payload?.data?.attributes || {};
-      const customerEmail = attributes.user_email || attributes.customer_email;
+      const customData = (payload?.meta as any)?.custom_data || {};
+      const siteId = customData.site || '';
+      const rawCustomerEmail = attributes.user_email || attributes.customer_email;
+      const customerEmail = normalizeEmail(rawCustomerEmail);
+      const productName = attributes.first_order_item?.variant_name || attributes.first_order_item?.product_name || 'AI Operating System & Master Prompt Playbook';
+      const productNameLower = productName.toLowerCase();
+
+      // Multi-Site Collision Guard
+      const isMatch = siteId === 'promptsystem-pro' ||
+        Boolean(customData.role) ||
+        productNameLower.includes('prompt') ||
+        productNameLower.includes('claude') ||
+        productNameLower.includes('gpt') ||
+        productNameLower.includes('ai operating system');
+
+      if (!isMatch) {
+        console.log(`[LemonSqueezy Webhook] Skipping order - not a promptsystem product (${productName})`);
+        return NextResponse.json({ ok: true, skipped: true, reason: 'Foreign store order' });
+      }
       const customerName = attributes.user_name || 'Valued Customer';
       const orderNumber = attributes.order_number || attributes.identifier || '';
       const totalFormatted = attributes.total_formatted || '$9.90';
       const receiptUrl = attributes.urls?.receipt || '';
-      const productName = attributes.first_order_item?.variant_name || attributes.first_order_item?.product_name || 'Enterprise AI Prompt Architecture & System Templates';
 
       // Generate a secure 30-day HMAC download token for instant customer fulfillment
       const downloadToken = createDownloadToken('promptsystem_download', 720);

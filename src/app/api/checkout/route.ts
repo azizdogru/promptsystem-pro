@@ -58,6 +58,7 @@ export async function POST(req: Request) {
                 checkout_data: {
                   email: email || undefined,
                   custom: {
+                    site: 'promptsystem-pro',
                     role: roleSlug || 'all',
                     plan: plan,
                   },
@@ -98,7 +99,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Payment gateway temporarily unavailable. Please try again shortly.' }, { status: 503 });
     }
 
-    const fallbackUrl = `${fallbackBaseUrl}?checkout[custom][role]=${roleSlug || 'all'}&checkout[custom][plan]=${plan}&checkout[success_url]=${encodeURIComponent(redirectUrl)}`;
+    const fallbackUrl = `${fallbackBaseUrl}?checkout[custom][site]=promptsystem-pro&checkout[custom][role]=${roleSlug || 'all'}&checkout[custom][plan]=${plan}&checkout[success_url]=${encodeURIComponent(redirectUrl)}`;
 
     return NextResponse.json({ url: fallbackUrl });
   } catch (error) {
