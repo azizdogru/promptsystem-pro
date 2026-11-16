@@ -165,6 +165,7 @@ export async function POST(req: NextRequest) {
             body: JSON.stringify({
               from: process.env.EMAIL_FROM || 'PromptSystemPro Orders <orders@promptsystem-pro.com>',
               to: [customerEmail],
+            reply_to: process.env.EMAIL_REPLY_TO || 'dogruaziz@gmail.com',
               subject: `Your Official Enterprise AI Prompt Architecture & System Templates is Ready (Order #${orderNumber})`,
               html: emailHtml,
             }),
