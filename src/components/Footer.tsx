@@ -113,6 +113,8 @@ export default function Footer() {
           <div className="flex items-center gap-4 sm:gap-6">
             <Link href="/privacy" className="hover:text-slate-300 transition">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-slate-300 transition">Terms of Service</Link>
+            <Link href="/vs/legalzoom" className="hover:text-slate-300 transition">vs LegalZoom</Link>
+            <Link href="/vs/rocket-lawyer" className="hover:text-slate-300 transition">vs Rocket Lawyer</Link>
           </div>
         </div>
         <SeoSchema />
