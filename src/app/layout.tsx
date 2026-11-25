@@ -67,7 +67,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark scroll-smooth">
-      <body className="min-h-screen bg-slate-950 font-sans text-slate-100 antialiased selection:bg-emerald-500 selection:text-slate-950">
+      <body className="min-h-screen bg-slate-950 font-sans text-slate-100 antialiased overflow-x-hidden selection:bg-emerald-500 selection:text-slate-950">
         <ClientToastHandler />
         <Navbar />
         <main>{children}</main>
