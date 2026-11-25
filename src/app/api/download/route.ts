@@ -16,9 +16,8 @@ export async function GET(req: Request) {
     const order = searchParams.get('order') || searchParams.get('order_id') || searchParams.get('checkout_id');
 
     const isValidToken = verifyDownloadToken(token, 'promptsystem_download');
-    const isValidOrder = Boolean(order && order.length >= 3);
 
-    if (!isValidToken && !isValidOrder) {
+    if (!isValidToken) {
       return NextResponse.json(
         { error: 'Valid purchase token required to download professional AI prompt system' },
         { status: 403 }

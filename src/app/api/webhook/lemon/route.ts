@@ -19,21 +19,27 @@ export async function POST(req: NextRequest) {
     const signature = req.headers.get('x-signature') || '';
     const secret = process.env.LEMONSQUEEZY_WEBHOOK_SECRET || process.env.LEMON_WEBHOOK_SECRET;
 
-    // Strict HMAC-SHA256 signature verification if secret is provided
-    if (secret) {
-      const hmac = crypto.createHmac('sha256', secret);
-      const digest = Buffer.from(hmac.update(rawBody).digest('hex'), 'utf8');
-      const signatureBuffer = Buffer.from(signature, 'utf8');
+    // Strict HMAC-SHA256 signature verification
+    if (!secret) {
+      console.error('Lemon Squeezy Webhook: LEMONSQUEEZY_WEBHOOK_SECRET is not configured');
+      return NextResponse.json({ error: 'Webhook secret is not configured' }, { status: 500 });
+    }
 
-      if (
-        digest.length !== signatureBuffer.length ||
-        !crypto.timingSafeEqual(digest, signatureBuffer)
-      ) {
-        console.error('Lemon Squeezy Webhook: Invalid HMAC signature');
-        return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
-      }
-    } else {
-      console.warn('Lemon Squeezy Webhook: LEMONSQUEEZY_WEBHOOK_SECRET is not configured. Processing in test mode.');
+    if (!signature) {
+      console.error('Lemon Squeezy Webhook: Missing signature header');
+      return NextResponse.json({ error: 'Missing signature' }, { status: 401 });
+    }
+
+    const hmac = crypto.createHmac('sha256', secret);
+    const digest = Buffer.from(hmac.update(rawBody).digest('hex'), 'utf8');
+    const signatureBuffer = Buffer.from(signature, 'utf8');
+
+    if (
+      digest.length !== signatureBuffer.length ||
+      !crypto.timingSafeEqual(digest, signatureBuffer)
+    ) {
+      console.error('Lemon Squeezy Webhook: Invalid HMAC signature');
+      return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
     }
 
     interface WebhookPayload {
@@ -163,7 +169,7 @@ export async function POST(req: NextRequest) {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              from: process.env.EMAIL_FROM || 'PromptSystemPro Orders <orders@promptsystem-pro.com>',
+              from: process.env.EMAIL_FROM || 'PromptSystemPro Orders <orders@legaldeliveryportal.com>',
               to: [customerEmail],
             reply_to: process.env.EMAIL_REPLY_TO || 'dogruaziz@gmail.com',
               subject: `Your Official Enterprise AI Prompt Architecture & System Templates is Ready (Order #${orderNumber})`,
